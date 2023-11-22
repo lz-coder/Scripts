@@ -39,7 +39,7 @@ code --install-extension usernamehw.errorlens
 code --install-extension formulahendry.code-runner
 
 echo -e "\n## Installing development packages ##\n"
-sudo dnf install -y clang cmake git-core gtk3-devel ninja-build pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extra
+sudo dnf install -y clang cmake git-core gh gtk3-devel ninja-build pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extra
 
 echo -e "\n## Configuring PATH ##\n"
 cat >> $HOME/.bashrc << 'EOL'
