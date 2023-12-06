@@ -37,6 +37,7 @@ code --install-extension Dart-Code.flutter
 code --install-extension Google.arb-editor
 code --install-extension usernamehw.errorlens
 code --install-extension formulahendry.code-runner
+code --install-extension vscode-icons-team.vscode-icons
 
 echo -e "\n## Installing development packages ##\n"
 sudo dnf install -y clang cmake git-core gh gtk3-devel ninja-build pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extra
@@ -52,7 +53,7 @@ export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
 PATH="$PATH:$JAVA_HOME"
 export ANDROID_HOME="$HOME/.local/Android/Sdk"
 PATH="${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
-export CHROME_EXECUTABLE="/bin/chromium"
+export CHROME_EXECUTABLE="/bin/chromium-browser"
 export PATH
 EOL
 
