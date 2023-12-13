@@ -1,6 +1,6 @@
 #!/bin/bash
 
-flutterVersion="3.13.9"
+flutterVersion="3.16.3"
 flutterFile="flutter_linux_$flutterVersion-stable.tar.xz"
 flutterUrl="https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/$flutterFile"
 
