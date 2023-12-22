@@ -43,7 +43,7 @@ echo -e "\n## Exporting vscode from distrobox ##\n"
 distrobox-export --app code
 
 echo -e "\n## Installing development packages ##\n"
-sudo zypper install -y clang cmake git-core gh gtk3-devel ninja pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extras
+sudo zypper install -y clang cmake git-core gh gtk3-devel ninja pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extras google-droid-sans-mono-fonts
 
 echo -e "\n## Configuring PATH ##\n"
 cat >> $HOME/.bashrc << 'EOL'
