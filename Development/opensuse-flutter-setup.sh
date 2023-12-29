@@ -57,6 +57,7 @@ PATH="$PATH:$JAVA_HOME"
 export ANDROID_HOME="$HOME/.local/Android/Sdk"
 PATH="${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 export CHROME_EXECUTABLE="/bin/chromium-browser"
+export ANDROID_AVD_HOME="$HOME/.config/.android/avd/"
 export PATH
 EOL
 
