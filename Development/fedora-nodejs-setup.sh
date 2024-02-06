@@ -9,7 +9,6 @@ echo -e "\nInstalling Codium extensions\n"
 codium --install-extension dbaeumer.vscode-eslint
 codium --install-extension PKief.material-icon-theme
 codium --install-extension ecmel.vscode-html-css
-codium --install-extension xabikos.JavaScriptSnippets
 codium --install-extension christian-kohler.path-intellisense
 codium --install-extension DigitalBrainstem.javascript-ejs-support
 codium --install-extension phoenisx.cssvar
