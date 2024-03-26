@@ -10,51 +10,79 @@ androidStudioUrl="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/202
 
 installDir="$HOME/.local/opt/"
 
-echo -e "\n## Downloading Flutter ##\n"
-wget $flutterUrl
-echo -e "\n## Downloading Android Studio ##\n"
-wget $androidStudioUrl
+configure_path( ) {
+    echo -e "\n## Backing-up .bashrc to .pre-flutter-setup.bashrc##\n"
+    cp $HOME/.bashrc $HOME/.pre-flutter-setup.bashrc
+    echo -e "\n## Configuring PATH ##\n"
+    cat >> $HOME/.bashrc << 'EOL'
 
-if [[ ! -d $installDir ]]; then
-    mkdir -p $installDir
+    ## ANDROID STUDIO && FLUTTER ##
+    PATH="$HOME/.local/opt/flutter/bin:$PATH"
+    PATH="$HOME/.local/opt/android-studio/bin:$PATH"
+    PATH="$HOME/.local/Android/Sdk/cmdline-tools/latest/bin:$PATH"
+    export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
+    PATH="$PATH:$JAVA_HOME"
+    export ANDROID_HOME="$HOME/.local/Android/Sdk"
+    PATH="${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+    export CHROME_EXECUTABLE="/bin/chromium-browser"
+    export PATH
+EOL
+}
+
+VALID_ARGS=$(getopt -o ir:h: --long install,remove:,help: -- "$@")
+if [[ $? -ne 0 ]]; then
+    exit 1;
 fi
 
-echo -e "\n## Installing Flutter in $installDir ##\n"
-tar -xvf ./$flutterFile -C $installDir
-rm ./$flutterFile
-echo -e "\n## Installing Android Studio in $installDir ##\n"
-tar -xvf ./$androidStudioFile -C $installDir
-rm ./$androidStudioFile
+eval set -- "$VALID_ARGS"
+while [ : ]; do
+    case "$1" in
+        -i | --install)
+            echo -e "\n## Downloading Flutter ##\n"
+            wget $flutterUrl
+            echo -e "\n## Downloading Android Studio ##\n"
+            wget $androidStudioUrl
 
-echo -e "\n## Installing VScode ##\n"
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
-sudo dnf install -y code
+            if [[ ! -d $installDir ]]; then
+                mkdir -p $installDir
+            fi
 
-echo -e "\n## Installing VScode Extensions ##\n"
-code --install-extension Dart-Code.dart-code
-code --install-extension Dart-Code.flutter
-code --install-extension Google.arb-editor
-code --install-extension usernamehw.errorlens
-code --install-extension formulahendry.code-runner
-code --install-extension vscode-icons-team.vscode-icons
+            echo -e "\n## Installing Flutter in $installDir ##\n"
+            tar -xvf ./$flutterFile -C $installDir
+            rm ./$flutterFile
+            echo -e "\n## Installing Android Studio in $installDir ##\n"
+            tar -xvf ./$androidStudioFile -C $installDir
+            rm ./$androidStudioFile
 
-echo -e "\n## Installing development packages ##\n"
-sudo dnf install -y clang cmake git-core gh gtk3-devel ninja-build pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extra google-droid-sans-mono-fonts
+            echo -e "\n## Installing VScode ##\n"
+            sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+            sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+            sudo dnf install -y code
 
-echo -e "\n## Configuring PATH ##\n"
-cat >> $HOME/.bashrc << 'EOL'
+            echo -e "\n## Installing VScode Extensions ##\n"
+            code --install-extension Dart-Code.dart-code
+            code --install-extension Dart-Code.flutter
+            code --install-extension Google.arb-editor
+            code --install-extension usernamehw.errorlens
+            code --install-extension formulahendry.code-runner
+            code --install-extension vscode-icons-team.vscode-icons
 
-## ANDROID STUDIO && FLUTTER ##
-PATH="$HOME/.local/opt/flutter/bin:$PATH"
-PATH="$HOME/.local/opt/android-studio/bin:$PATH"
-PATH="$HOME/.local/Android/Sdk/cmdline-tools/latest/bin:$PATH"
-export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
-PATH="$PATH:$JAVA_HOME"
-export ANDROID_HOME="$HOME/.local/Android/Sdk"
-PATH="${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
-export CHROME_EXECUTABLE="/bin/chromium-browser"
-export PATH
-EOL
+            echo -e "\n## Installing development packages ##\n"
+            sudo dnf install -y clang cmake git-core gh gtk3-devel ninja-build pkgconf-pkg-config xz-devel libstdc++-devel pinentry-gnome3 libsecret chromium gnome-themes-extra google-droid-sans-mono-fonts
 
-echo -e "\n## Enjoy :) ##\n"
+            configure_path
+
+            echo -e "\n## Enjoy :) ##\n"
+            shift
+            ;;
+        -r | --remove)
+            echo -e "\n## Removing Flutter and Android Studio\n##"
+            rm -rf $installDir/flutter
+            rm -rf $installDir/android_studio
+            shift
+            ;;
+        --) shift;
+            break
+            ;;
+    esac
+done
